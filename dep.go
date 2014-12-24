@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"os/exec"
+	"os"
 )
 
 type depError struct {
@@ -18,7 +18,7 @@ type depSummary struct {
 }
 
 func installDep(dep string) error {
-	_, err = RunInDevContainerCapture([]string{"go", "get", dep})
+	_, err := RunInDevContainerCapture([]string{"go", "get", dep})
 	if err != nil {
 		return err
 	}
@@ -63,5 +63,11 @@ func installDepsUsingGodep() {
 }
 
 func Dep() {
-	installDepsUsingGoGet()
+	_, err := os.Stat("Godeps/Godeps.json")
+	switch os.IsNotExist(err) {
+	case true:
+		installDepsUsingGoGet()
+	case false:
+		installDepsUsingGodep()
+	}
 }

@@ -1,10 +1,7 @@
 package main
 
 import (
-	//"fmt"
 	"github.com/codegangsta/cli"
-	//dclient "github.com/fsouza/go-dockerclient"
-	//"log"
 	"os"
 )
 
@@ -15,21 +12,14 @@ type Config struct {
 	ContainerDir string
 	LocalDir     string
 	DevImage     string
+	Shell        string
 }
 
 var DefaultConfig = Config{
 	Port:     "10001:10001",
 	DevImage: "btburke/golang-dev",
+	Shell:    "/bin/bash",
 }
-
-// var Client *dclient.Client
-
-// func init() {
-// 	Client, err := NewDockerClient()
-// 	if err != nil {
-// 		log.Fatal("Error: Could not get a connection to the Docker API.  If you're using boot2docker, check the status of the VM.")
-// 	}
-// }
 
 func main() {
 	app := cli.NewApp()
@@ -57,6 +47,27 @@ func main() {
 			Usage: "install necessary dependencies inside the dev container",
 			Action: func(c *cli.Context) {
 				Dep()
+			},
+		},
+		{
+			Name:  "up",
+			Usage: "start your dev environment",
+			Action: func(c *cli.Context) {
+				Up()
+			},
+		},
+		{
+			Name:  "stop",
+			Usage: "stop your dev-managed environment",
+			Action: func(c *cli.Context) {
+				Stop()
+			},
+		},
+		{
+			Name:  "rm",
+			Usage: "remove stopped dev-managed containers",
+			Action: func(c *cli.Context) {
+				Rm()
 			},
 		},
 	}
