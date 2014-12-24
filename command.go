@@ -55,9 +55,6 @@ func Stop() {
 }
 
 func Rm() {
-	out, err := figCmd([]string{"rm", "-force"})
-	if err != nil {
-		log.Fatalf("Error: Failed to remove stopped containers. %v", err)
-	}
+	out, _ := figCmd([]string{"rm", "--force"})
 	fmt.Printf("%s", string(out[:]))
 }

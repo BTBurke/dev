@@ -77,6 +77,14 @@ func main() {
 				Web()
 			},
 		},
+		{
+			Name:        "test",
+			Usage:       "run go test in the dev container",
+			Description: "By default, the command runs go test -v.  To run more sophisticated go test commands with other flags, run dev shell and then execute go tests directly in the container.",
+			Action: func(c *cli.Context) {
+				Test()
+			},
+		},
 	}
 	app.Run(os.Args)
 }
