@@ -1,0 +1,11 @@
+dev:
+    image: btburke/golang-dev
+    ports:
+        - "10001:10001"
+    volumes_from:
+        - code
+    working_dir: /golang/src/github.com/BTBurke/dev
+code:
+    image: busybox
+    volumes:
+        - /Users/btb/project/golang/src/github.com/BTBurke/dev:/golang/src/github.com/BTBurke/dev
