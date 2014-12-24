@@ -70,6 +70,13 @@ func main() {
 				Rm()
 			},
 		},
+		{
+			Name:  "web",
+			Usage: "link to the Goconvey web interface",
+			Action: func(c *cli.Context) {
+				Web()
+			},
+		},
 	}
 	app.Run(os.Args)
 }

@@ -17,7 +17,8 @@ Previously, I used Vagrant for isolated development environments that mimic prod
 ## Quickstart
 
 ```bash
-# Create a basic fig.yml environment for your dev environment and a data-only container for your code
+# Create a basic fig.yml environment for your dev environment and a 
+# data-only container for your code
 
 >> dev init 
 

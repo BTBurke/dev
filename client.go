@@ -22,7 +22,7 @@ type tls struct {
 	ca   string
 }
 
-func determineDockerType() int {
+func DetermineDockerType() int {
 	_, err := exec.LookPath("boot2docker")
 	if err != nil {
 		return UseDocker
@@ -31,7 +31,7 @@ func determineDockerType() int {
 }
 
 func NewDockerClient() (*dclient.Client, error) {
-	arch := determineDockerType()
+	arch := DetermineDockerType()
 	switch arch {
 	case UseBoot2Docker:
 		client, err := newBoot2DockerClient()

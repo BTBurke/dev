@@ -47,7 +47,7 @@ func Stop() {
 		log.Fatalf("Error: Failed to stop running containers. %v", err)
 	}
 	fmt.Println("All dev-managed containers stopped.\n")
-	out, err := dockerPS()
+	out, err := dockerPs()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -56,5 +56,8 @@ func Stop() {
 
 func Rm() {
 	out, err := figCmd([]string{"rm", "-force"})
+	if err != nil {
+		log.Fatalf("Error: Failed to remove stopped containers. %v", err)
+	}
 	fmt.Printf("%s", string(out[:]))
 }
