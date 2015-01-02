@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/BTBurke/clt"
 	"log"
 	"os/exec"
 )
@@ -12,7 +13,7 @@ func figCmd(cmd []string) (out []byte, execErr error) {
 		log.Fatalf("Error: Fig does not appear to be installed.")
 	}
 
-	out, execErr = exec.Command(fig, cmd...).Output()
+	out, execErr = exec.Command(fig, cmd...).CombinedOutput()
 	return
 }
 
@@ -28,15 +29,22 @@ func dockerPs() (out []byte, execErr error) {
 }
 
 func Up() {
-	_, err := figCmd([]string{"up", "-d"})
+	p := clt.NewProgressSpinner("Starting dev environment")
+	p.Start()
+	out, err := figCmd([]string{"up", "-d"})
 	if err != nil {
-		log.Fatalf("Error: Fig up failed to start. %v", err)
+		p.Fail()
+		log.Fatalf("Error: Fig up failed to start. %v. Output: %v", err, string(out[:]))
 	}
-	out, err := dockerPs()
+	//p.Success()
+	_, err = FindDevContainer("dev")
 	if err != nil {
+		p.Fail()
 		log.Fatal(err)
 	}
-	fmt.Println("Updating dependencies...")
+	out, _ = dockerPs()
+	p.Success()
+	//fmt.Println("Updating dependencies...")
 	Dep()
 	fmt.Printf("\nYour dev environment is running:\n\n%s", string(out[:]))
 }

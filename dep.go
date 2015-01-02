@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
+	"github.com/BTBurke/clt"
 	"log"
 	"os"
 )
@@ -35,17 +35,21 @@ func installDepsUsingGoGet() {
 	if err != nil {
 		log.Fatalf("Error: Could not get dependencies. %v", err)
 	}
+	clt.Say("Installing dependencies using go get")
 	for _, dep := range summary.DepsErrors {
 		for _, stack := range dep.ImportStack {
 			switch stack {
 			case summary.ImportPath:
 				continue
 			default:
+				p := clt.NewProgressSpinner("%v", stack)
+				p.Start()
 				err = installDep(stack)
 				if err != nil {
+					p.Fail()
 					log.Fatalf("Error: Failed to install dependency %v", stack)
 				}
-				fmt.Printf("Installed: %v\n", stack)
+				p.Success()
 			}
 		}
 	}
@@ -56,10 +60,15 @@ func installDepsUsingGodep() {
 	if err != nil {
 		log.Fatalf("Error: Failed to install godep")
 	}
+	clt.Say("Installing dependencies using Godep restore")
+	p := clt.NewProgressSpinner("Godep restore")
+	p.Start()
 	_, err = RunInDevContainerCapture([]string{"godep", "restore"})
 	if err != nil {
+		p.Fail()
 		log.Fatalf("Error: Godep restore did not complete successfully. %v", err)
 	}
+	p.Success()
 }
 
 func Dep() {
