@@ -39,7 +39,7 @@ func RunInDevContainerCapture(execArgs []string) (out []byte, execErr error) {
 	}
 	argsBase := []string{"exec", "-it", container.ID}
 	argsAll := append(argsBase, execArgs...)
-	out, execErr = exec.Command(docker, argsAll...).Output()
+	out, execErr = exec.Command(docker, argsAll...).CombinedOutput()
 	return
 }
 

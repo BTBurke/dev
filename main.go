@@ -8,17 +8,19 @@ import (
 const VERSION string = "0.1.0"
 
 type Config struct {
-	Port         string
-	ContainerDir string
-	LocalDir     string
-	DevImage     string
-	Shell        string
+	Port            string
+	ContainerDir    string
+	LocalDir        string
+	DevImage        string
+	Shell           string
+	ContainerGoPath string
 }
 
 var DefaultConfig = Config{
-	Port:     "10001:10001",
-	DevImage: "btburke/golang-dev",
-	Shell:    "/bin/bash",
+	Port:            "10001:10001",
+	DevImage:        "btburke/golang-dev",
+	Shell:           "/bin/bash",
+	ContainerGoPath: "/golang",
 }
 
 func main() {
